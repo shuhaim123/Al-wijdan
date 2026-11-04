@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+.btn-marca-gradient {
+  background: linear-gradient(90deg, #ab1cb6 0%, #6866a9 52%, #10ce99 100%);
+}
+
+.btn-marca-gradient:hover {
+  filter: brightness(1.08);
+}
+
+.speaker-border-gradient {
+  background: linear-gradient(155deg, #10dca3 0%, #14cba9 35%, #8a3ab9 70%, #c11dc8 100%);
+}
+
+.topic-border-fade {
+  background: linear-gradient(
+    90deg,
+    #bd20c7 0%,
+    #9f2bc4 14%,
+    #11d79d 42%,
+    rgba(17, 215, 157, 0.18) 66%,
+    rgba(20, 10, 27, 0) 84%
+  );
+}
+
