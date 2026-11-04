@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState, useRef } from 'react';
-import { User, Mail, Phone } from 'lucide-react';
+import { User, Mail, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   MarcaEfectoLogo,
   EventStarCalendarIcon,
@@ -20,8 +20,8 @@ import { TicketModal, VideoPreviewModal } from './components/Modals';
 interface SpeakerData {
   id: string;
   name?: string;
-  role: string;
-  image?: string;
+  role?: string;
+  image: string;
   flag?: React.ReactNode;
   defaultBioOpen?: boolean;
   bioHeading?: string;
@@ -30,77 +30,110 @@ interface SpeakerData {
 
 const SPEAKERS: SpeakerData[] = [
   {
-    id: 'monik',
+    id: 'speak-1',
     name: 'MONIK MONTANEZ',
     role: 'ASSESSOR EN REDES SOCIALES, INGENIERA DE SISTEMAS, VISIONARIA EN MARKETING DIGITAL',
-    image: '/assets/extracted/speaker-monik.webp',
-    flag: <FlagColombia />,
-    defaultBioOpen: false,
-    bioHeading: 'ASSESSOR EN REDES SOCIALES E INGENIERA DE SISTEMAS',
-    bioText:
-      'Especialista en posicionamiento digital y crecimiento orgánico en redes sociales. Ayuda a profesionales y emprendedores a estructurar ecosistemas digitales auténticos, rentables y alineados con su propósito personal.',
+    image: '/assets/extracted/speak1.jpg',
   },
   {
-    id: 'comunicador',
+    id: 'speak-2',
     role: 'COMUNICADOR SOCIAL, ESCRITOR DE DOS LIBROS Y CONFERENCISTA',
-    defaultBioOpen: true,
-    bioHeading: 'COMUNICADOR SOCIAL, ESCRITOR DE DOS LIBROS Y CONFERENCISTA',
-    bioText:
-      'Su enfoque se resume en una frase que rige su vida: "Hablar bien es sexy." Actualmente conduce el programa “Palabra Cierta” con un corte educativo de lunes a viernes en Televen. Además, es creador y director de la empresa Sentir Comunicaciones y The Branding Show. Su misión va más allá de las palabras, se trata de mejorar el arte de comunicar, persuadir y potenciar las habilidades blandas que son esenciales en el mundo actual. “El secreto está en DAR”: amo entregar y dar los talentos que Dios ha puesto en mí para el servicio de los demás.',
+    image: '/assets/extracted/speak2.jpg',
   },
   {
-    id: 'karen',
+    id: 'speak-3',
     name: 'KAREN ESPINAL',
     role: 'ASESORA DE IMAGEN PÚBLICA Y COMUNICADORA',
-    image: '/assets/extracted/speaker-karen.webp',
-    flag: <FlagUSA />,
-    defaultBioOpen: false,
-    bioHeading: 'ASESORA DE IMAGEN PÚBLICA Y COMUNICADORA',
-    bioText:
-      'Experta en proyección ejecutiva, protocolo corporativo y comunicación no verbal. Acompaña a líderes y conferencistas en la construcción de una imagen coherente que potencie su autoridad y credibilidad.',
+    image: '/assets/extracted/speak3.jpg',
   },
   {
-    id: 'floraida',
+    id: 'speak-4',
     name: 'FLORAIDA THOMAS',
     role: 'ASESORA DE IMAGEN PÚBLICA Y COMUNICADORA',
-    image: '/assets/extracted/speaker-floraida.webp',
-    flag: <FlagDominicanRepublic />,
-    defaultBioOpen: false,
-    bioHeading: 'ASESORA DE IMAGEN PÚBLICA Y COMUNICADORA',
-    bioText:
-      'Consultora en estilismo estratégico, etiqueta social y marca personal. Su metodología integra identidad visual y expresión auténtica para destacar con elegancia en escenarios profesionales.',
+    image: '/assets/extracted/speak4.jpg',
+  },
+  {
+    id: 'speak-5',
+    image: '/assets/extracted/speak5.jpg',
+  },
+  {
+    id: 'speak-6',
+    image: '/assets/extracted/speak6.jpg',
+  },
+  {
+    id: 'speak-7',
+    image: '/assets/extracted/speak7.jpg',
+  },
+  {
+    id: 'speak-8',
+    image: '/assets/extracted/speak8.jpg',
   },
 ];
 
-const TOPICS = [
+const TOPICS_ROW_1 = [
   {
-    title: 'PROYECTA TU MARCA EN REDES SOCIALES',
+    title: 'Dars of Ihya Ulum al-Din',
     description:
-      'Descubre cómo las redes sociales pueden ser un aliado poderoso para fortalecer tu marca personal. Aprende estrategias para maximizar tu presencia online y conectar de manera efectiva con tu audiencia.',
+      'An exploration of Imam Al-Ghazali’s renowned work, examining its spiritual teachings, ethical principles and guidance for personal transformation.',
   },
   {
-    title: 'EL PODER DE TU IMAGEN',
+    title: 'Wilayah: Spiritual Ranks and the Principles of Spiritual Obedience',
     description:
-      'Entiende cómo tu imagen personal influye en la percepción de los demás y aprende a usarla para reforzar tu mensaje y tus objetivos profesionales.',
+      'Exploring the concept of Wilayah, the diversity of spiritual stations and the principles that guide the journey towards closeness to Allah.',
   },
   {
-    title: 'VÉNDETE E IMPULSA TU MARCA',
+    title: 'Shaykh and Tariqah: The Radiance of Spirituality',
     description:
-      'Comunicación y Oratoria": Más allá de solo promocionarte, aprende a comunicar tu valor de manera convincente. Descubre técnicas de oratoria que te permitirán presentar tu marca personal de forma impactante y memorable en cualquier escenario.',
+      'Examining the role of the spiritual guide and the Tariqah in nurturing spiritual discipline, self-purification and inner development.',
   },
   {
-    title: 'ESTILISMO ESTRATÉGICO MÁS ALLÁ DE LA MODA',
+    title: "Imam al-Haddad (RA): Ba'Alawi Roots that Enlightened Kerala",
     description:
-      'Aprende a utilizar el estilismo como herramienta para comunicar tu identidad de marca, yendo más allá de las tendencias de moda para crear un estilo que te represente genuinamente.',
+      "Discovering the spiritual heritage of Imam al-Haddad and the influence of Ba'Alawi traditions in shaping Kerala's Islamic spiritual landscape.",
+  },
+  {
+    title: 'Tasawwuf: A Life of Religious Commitment',
+    description:
+      "Understanding Tasawwuf as a way of life rooted in faith, devotion and discipline, shaping one's relationship with Allah and society.",
   },
 ];
+
+const TOPICS_ROW_2 = [
+  {
+    title: 'Mysticism, Rationality and Music: Secular Expressions in Contemporary Sufism',
+    description:
+      'Investigating the relationship between mystical experience, intellectual reasoning and music, with particular attention to their expressions in contemporary Sufism.',
+  },
+  {
+    title: 'Knowledge, Adab and Conduct: The Beauty of the Teacher–Student Relationship',
+    description:
+      'Understanding the values of respect, humility and ethical conduct that define the relationship between teachers and students in Islamic tradition.',
+  },
+  {
+    title: 'Spirituality: Distortions and False Paths',
+    description:
+      'Identifying misconceptions and deviations in spiritual practices while highlighting the importance of authentic teachings and sound spiritual guidance.',
+  },
+  {
+    title: 'Ilm al-Tasawwuf: The Exchange of Practical Applications',
+    description:
+      'Exploring how the principles of Tasawwuf translate into practical spiritual exercises, personal discipline and everyday conduct.',
+  },
+  {
+    title: 'Western Literature: Sufi Readings of Literary Works',
+    description:
+      'Exploring literary works through the lens of Sufi thought, uncovering spiritual meanings, philosophical reflections and deeper interpretations.',
+  },
+];
+
+const TOPICS = [...TOPICS_ROW_1, ...TOPICS_ROW_2];
 
 const SPONSORS = [
-  { name: 'Delcop', src: '/assets/extracted/sponsor-delcop.png', heightClass: 'h-9 sm:h-11 md:h-12' },
-  { name: 'Alimentos Mary', src: '/assets/extracted/sponsor-mary.png', heightClass: 'h-16 sm:h-20 md:h-24' },
-  { name: 'JHS Grupo', src: '/assets/extracted/sponsor-jhs.png', heightClass: 'h-12 sm:h-14 md:h-16' },
-  { name: 'Daiko Vinilos', src: '/assets/extracted/sponsor-daiko.png', heightClass: 'h-20 sm:h-24 md:h-28' },
-  { name: 'Flor de Arauca', src: '/assets/extracted/sponsor-flordearauca.png', heightClass: 'h-11 sm:h-13 md:h-15' },
+  { name: 'Sponsor 1', src: '/assets/sponsors/sponsor1.png', heightClass: 'h-12 sm:h-16 md:h-20' },
+  { name: 'Sponsor 2', src: '/assets/sponsors/sponsor2.png', heightClass: 'h-12 sm:h-16 md:h-20' },
+  { name: 'Sponsor 3', src: '/assets/sponsors/sponsor3.png', heightClass: 'h-12 sm:h-16 md:h-20' },
+  { name: 'Sponsor 4', src: '/assets/sponsors/sponsor4.png', heightClass: 'h-12 sm:h-16 md:h-20' },
+  { name: 'Sponsor 5', src: '/assets/sponsors/sponsor5.png', heightClass: 'h-12 sm:h-16 md:h-20' },
 ];
 
 // Initial countdown matching the exact design: 01 Days, 21 Hours, 01 Minutes, 33 Seconds
@@ -110,6 +143,7 @@ export default function App() {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(INITIAL_SECONDS);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeSpeakerIndex, setActiveSpeakerIndex] = useState(0);
+  const [desktopSpeakerPage, setDesktopSpeakerPage] = useState(0);
 
   const handleCarouselScroll = () => {
     if (!carouselRef.current) return;
@@ -206,109 +240,146 @@ export default function App() {
       {/* =====================================================================
           1. HEADER & HERO SECTION
          ===================================================================== */}
-      <section className="relative w-full overflow-hidden bg-[#090612]">
-        {/* Stage Background Photography */}
-        <div className="absolute inset-0 pointer-events-none">
-          <img
-            src="/assets/extracted/hero-bg.webp"
-            alt="Conferencista en el escenario de Marca Efecto"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-[50%_22%]"
-          />
-          {/* Subtle top/bottom atmospheric blend matching the mockup */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-[#180c22]" />
-        </div>
+      <section
+        className="relative w-full overflow-hidden"
+        style={{
+          background:
+            'radial-gradient(ellipse at 40% 35%, #561d22 0%, #421418 38%, #2d0b0f 72%, #1c0507 100%)',
+        }}
+      >
+        {/* Subtle Warm Atmospheric Overlays matching reference */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_25%_45%,rgba(245,215,140,0.08)_0%,transparent_60%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none opacity-50 bg-[radial-gradient(circle_at_80%_60%,rgba(215,160,80,0.12)_0%,transparent_50%)]"
+        />
+        {/* Seamless bottom transition into Section 2 canvas */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#180c22] to-transparent pointer-events-none"
+        />
 
-        <div className="relative z-10 max-w-[1180px] mx-auto px-4 sm:px-6 pt-4 sm:pt-5 pb-10 sm:pb-12">
+        <div className="relative z-10 max-w-[1180px] mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-14 sm:pb-18">
           {/* Top Bar */}
           <header className="flex items-center justify-between gap-4">
-            <a href="#top" className="inline-block shrink-0 focus:outline-none" aria-label="Marca Efecto Inicio">
+            <a href="#top" className="inline-block shrink-0 focus:outline-none" aria-label="Al-Wijdan">
               <MarcaEfectoLogo size="sm" />
             </a>
 
             <button
               type="button"
               onClick={() => setTicketModalOpen(true)}
-              className="rounded-full btn-marca-gradient px-6 sm:px-9 py-2.5 sm:py-3 text-[11.5px] sm:text-[13px] font-semibold uppercase tracking-[0.04em] text-white shadow-lg transition-transform active:scale-[0.98] whitespace-nowrap shrink-0 cursor-pointer"
+              className="rounded-full bg-gradient-to-b from-[#FDE28A] via-[#E8B54A] to-[#C99026] hover:brightness-105 active:scale-[0.98] px-6 sm:px-8 py-2.5 sm:py-2.5 text-[12px] sm:text-[13px] font-semibold text-[#320D12] shadow-[0_4px_16px_rgba(201,144,38,0.25)] transition-all whitespace-nowrap shrink-0 cursor-pointer"
             >
-              BUY TICKETS
+              Register Now
             </button>
           </header>
 
-          {/* Center Hero Headline & CTA */}
-          <div className="mt-24 sm:mt-40 md:mt-[255px] text-center max-w-[650px] mx-auto px-2">
-            <h1 className="text-[32px] sm:text-[46px] md:text-[54px] font-bold uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.45)]">
-              AL-WIJDAN
-            </h1>
-            <p className="mt-3 sm:mt-3.5 text-[12.5px] sm:text-[14px] leading-[1.6] text-white/95 font-normal max-w-[555px] mx-auto drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)]">
-              Al-Wijdan is a Tasawwuf conference organised by Samastha Kerala Jem-iyyathul Ulama, bringing together scholars, students and representatives to explore the intellectual heritage, spiritual dimensions and contemporary relevance of Tasawwuf.
-            </p>
-            <div className="mt-5 sm:mt-6">
-              <button
-                type="button"
-                onClick={() => setTicketModalOpen(true)}
-                className="rounded-full btn-marca-gradient px-9 sm:px-11 py-3 sm:py-3.5 text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.04em] text-white shadow-xl transition-transform active:scale-[0.98] whitespace-nowrap cursor-pointer"
-              >
-                REGISTER NOW
-              </button>
+          {/* Hero Composition: Left Text Block & Right Book Graphic */}
+          <div className="mt-10 sm:mt-14 md:mt-18 lg:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            {/* Left Hero Text Block */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left">
+              {/* Main Heading: AL-WIJDAN */}
+              <h1 className="text-[44px] sm:text-[62px] md:text-[76px] lg:text-[84px] xl:text-[92px] font-serif font-bold uppercase leading-[0.95] tracking-[0.02em] text-[#F7E5BD] drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+                AL-WIJDAN
+              </h1>
+
+              {/* Subtitle: Tasawwuf Conference */}
+              <h2 className="mt-2 sm:mt-3 text-[22px] sm:text-[28px] md:text-[34px] lg:text-[38px] font-medium tracking-[0.01em] text-[#F1DCBD] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                Tasawwuf Conference
+              </h2>
+
+              {/* Description: Italicized, refined ivory */}
+              <p className="mt-4 sm:mt-5 text-[13.5px] sm:text-[15px] md:text-[16px] leading-[1.65] text-[#E8D4C0]/90 italic font-light max-w-[490px] drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
+                A scholarly gathering that explores the intellectual, spiritual and cultural dimensions of Tasawwuf in the contemporary world.
+              </p>
+
+              {/* CTA Button: Register Now */}
+              <div className="mt-7 sm:mt-8">
+                <button
+                  type="button"
+                  onClick={() => setTicketModalOpen(true)}
+                  className="rounded-full bg-gradient-to-b from-[#FDE28A] via-[#E8B54A] to-[#C99026] hover:brightness-105 active:scale-[0.98] px-8 sm:px-11 py-3.5 sm:py-4 text-[13px] sm:text-[14px] font-bold tracking-[0.02em] text-[#320D12] shadow-[0_8px_28px_rgba(201,144,38,0.35)] transition-all cursor-pointer whitespace-nowrap"
+                >
+                  Register Now
+                </button>
+              </div>
+            </div>
+
+            {/* Right Book Image */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end items-center relative">
+              <div className="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] lg:max-w-[420px] xl:max-w-[460px]">
+                {/* Subtle warm golden back-glow behind the book */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(235,185,85,0.18)_0%,transparent_70%)] blur-2xl"
+                />
+                <img
+                  src="/assets/extracted/hero-book.png"
+                  alt="Ihya Ulum al-Din - Tasawwuf Conference"
+                  className="relative z-10 w-full h-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.8)] select-none transition-transform duration-500 hover:scale-[1.02]"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Glassmorphic Event Details Bar */}
-          <div className="mt-10 sm:mt-14 max-w-[1056px] mx-auto rounded-[20px] border border-white/25 bg-[#120d1d]/55 backdrop-blur-md px-5 sm:px-8 md:px-10 py-6 sm:py-8 shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
+          {/* Glassmorphic Event Details Bar - Maroon & Gold Palette */}
+          <div className="mt-12 sm:mt-16 lg:mt-20 max-w-[1056px] mx-auto rounded-[22px] border border-[#d4af37]/35 bg-[#25080c]/70 backdrop-blur-md px-5 sm:px-8 md:px-10 py-6 sm:py-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-0 items-start">
-              {/* Item 1: Nombre del Evento */}
-              <div className="md:col-span-5 flex items-start gap-3.5 pb-5 md:pb-0 md:pr-6 border-b md:border-b-0 border-white/10 relative">
+              {/* Item 1: Event Name */}
+              <div className="md:col-span-5 flex items-start gap-3.5 pb-5 md:pb-0 md:pr-6 border-b md:border-b-0 border-[#d4af37]/20 relative">
                 <div className="pt-0.5">
                   <EventStarCalendarIcon />
                 </div>
                 <div>
-                  <h2 className="text-[16px] sm:text-[18.5px] font-bold uppercase text-white leading-snug">
+                  <h2 className="text-[14px] sm:text-[16px] font-bold uppercase text-[#F5DC9A] tracking-wider leading-snug">
                     EVENT NAME
                   </h2>
-                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-white/90">
+                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-[#F5EBE1]">
                     Al-Wijdan 2026: Tasawwuf Conference
                   </p>
                 </div>
                 {/* Vertical gradient divider on desktop */}
                 <span
                   aria-hidden="true"
-                  className="hidden md:block absolute right-0 top-1 bottom-1 w-[1px] bg-gradient-to-b from-transparent via-[#A91BB5]/65 to-transparent"
+                  className="hidden md:block absolute right-0 top-1 bottom-1 w-[1px] bg-gradient-to-b from-transparent via-[#d4af37]/45 to-transparent"
                 />
               </div>
 
-              {/* Item 2: Fecha y Hora */}
-              <div className="md:col-span-3 flex items-start gap-3.5 pb-5 md:pb-0 md:px-6 border-b md:border-b-0 border-white/10 relative">
+              {/* Item 2: Date & Time */}
+              <div className="md:col-span-3 flex items-start gap-3.5 pb-5 md:pb-0 md:px-6 border-b md:border-b-0 border-[#d4af37]/20 relative">
                 <div className="pt-0.5">
                   <EventClockIcon />
                 </div>
                 <div>
-                  <h2 className="text-[16px] sm:text-[18.5px] font-bold uppercase text-white leading-snug">
+                  <h2 className="text-[14px] sm:text-[16px] font-bold uppercase text-[#F5DC9A] tracking-wider leading-snug">
                     DATE &amp; TIME
                   </h2>
-                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-white/90">
+                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-[#F5EBE1]">
                     Sunday, 13 December 2026
                   </p>
                 </div>
                 {/* Vertical gradient divider on desktop */}
                 <span
                   aria-hidden="true"
-                  className="hidden md:block absolute right-0 top-1 bottom-1 w-[1px] bg-gradient-to-b from-transparent via-[#A91BB5]/65 to-transparent"
+                  className="hidden md:block absolute right-0 top-1 bottom-1 w-[1px] bg-gradient-to-b from-transparent via-[#d4af37]/45 to-transparent"
                 />
               </div>
 
-              {/* Item 3: Ubicación */}
+              {/* Item 3: Location */}
               <div className="md:col-span-4 flex items-start gap-3.5 md:pl-7">
                 <div className="pt-0.5">
                   <EventPinIcon />
                 </div>
                 <div>
-                  <h2 className="text-[16px] sm:text-[18.5px] font-bold uppercase text-white leading-snug">
+                  <h2 className="text-[14px] sm:text-[16px] font-bold uppercase text-[#F5DC9A] tracking-wider leading-snug">
                     LOCATION
                   </h2>
-                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-white/90">
-                    Tajul Asfiya Square
-                    Kuttippuram, Malappuram, Kerala, India
+                  <p className="mt-1 text-[12.5px] sm:text-[13px] leading-[1.5] text-[#F5EBE1]">
+                    Tajul Asfiya Square, Kuttippuram, Malappuram, Kerala, India
                   </p>
                 </div>
               </div>
@@ -351,26 +422,28 @@ export default function App() {
             SPEAKER
           </h2>
 
-          {/* Speaker Cards: Horizontal Swipeable Carousel on Mobile, Grid on Tablet/Desktop */}
-          <div
-            ref={carouselRef}
-            onScroll={handleCarouselScroll}
-            className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none scroll-smooth items-stretch pb-4 sm:pb-0 px-4 sm:px-0 -mx-4 sm:mx-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x"
-          >
-            {SPEAKERS.map((sp, idx) => (
+          {/* Speaker Card Render Helper */}
+          {(() => {
+            const renderSpeakerCard = (sp: SpeakerData, idx: number, isDesktop = false) => (
               <div
                 key={sp.id}
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'ArrowRight' && idx < SPEAKERS.length - 1) {
-                    e.preventDefault();
-                    scrollToIndex(idx + 1);
-                  } else if (e.key === 'ArrowLeft' && idx > 0) {
-                    e.preventDefault();
-                    scrollToIndex(idx - 1);
+                  if (!isDesktop) {
+                    if (e.key === 'ArrowRight' && idx < SPEAKERS.length - 1) {
+                      e.preventDefault();
+                      scrollToIndex(idx + 1);
+                    } else if (e.key === 'ArrowLeft' && idx > 0) {
+                      e.preventDefault();
+                      scrollToIndex(idx - 1);
+                    }
                   }
                 }}
-                className="w-[80vw] max-w-[285px] sm:w-full sm:max-w-none shrink-0 sm:shrink snap-center sm:snap-align-none lg:min-h-[422px] speaker-border-gradient p-[2.5px] rounded-tl-[48px] rounded-br-[48px] shadow-[0_14px_34px_rgba(10,5,20,0.45)] transition-all duration-300 hover:-translate-y-1 flex flex-col focus:outline-none focus:ring-2 focus:ring-[#13D89A]"
+                className={`${
+                  isDesktop
+                    ? 'w-full lg:min-h-[422px]'
+                    : 'w-[80vw] max-w-[285px] sm:w-[300px] shrink-0 snap-center'
+                } speaker-border-gradient p-[2.5px] rounded-tl-[48px] rounded-br-[48px] shadow-[0_14px_34px_rgba(10,5,20,0.45)] transition-all duration-300 hover:-translate-y-1 flex flex-col focus:outline-none focus:ring-2 focus:ring-[#13D89A]`}
               >
                 <div className="w-full h-full rounded-tl-[46px] rounded-br-[46px] bg-[#0B0B14] overflow-hidden flex flex-col">
                   {/* Speaker Photograph */}
@@ -378,7 +451,7 @@ export default function App() {
                     {sp.image ? (
                       <img
                         src={sp.image}
-                        alt={sp.name || sp.role}
+                        alt={sp.name || sp.role || `Speaker ${idx + 1}`}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover object-top"
                       />
@@ -400,36 +473,128 @@ export default function App() {
                         {sp.name}
                       </h3>
                     )}
-                    <p
-                      className={`${sp.name ? 'mt-1.5' : 'mt-0.5'
+                    {sp.role && (
+                      <p
+                        className={`${
+                          sp.name ? 'mt-1.5' : 'mt-0.5'
                         } text-[10px] sm:text-[10.3px] font-semibold uppercase leading-[1.45] text-white/95 max-w-[235px]`}
-                    >
-                      {sp.role}
-                    </p>
+                      >
+                        {sp.role}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
 
-          {/* Mobile Carousel Pagination Indicators */}
-          <div
-            className="flex sm:hidden justify-center items-center gap-2 mt-6"
-            aria-label="Speaker carousel pagination"
-          >
-            {SPEAKERS.map((sp, idx) => (
-              <button
-                key={sp.id}
-                type="button"
-                onClick={() => scrollToIndex(idx)}
-                aria-label={`Go to speaker ${idx + 1}: ${sp.name || sp.role}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${activeSpeakerIndex === idx
-                    ? 'w-7 bg-gradient-to-r from-[#10ce99] via-[#6866a9] to-[#ab1cb6]'
-                    : 'w-2 bg-white/30 hover:bg-white/50'
-                  }`}
-              />
-            ))}
-          </div>
+            return (
+              <>
+                {/* DESKTOP VIEW: 4 Cards per Row with Left/Right Navigation Arrows and Smooth Sliding Transition */}
+                <div className="relative hidden lg:block">
+                  {/* Left Navigation Arrow */}
+                  <button
+                    type="button"
+                    onClick={() => setDesktopSpeakerPage(0)}
+                    disabled={desktopSpeakerPage === 0}
+                    aria-label="Previous speakers"
+                    className={`absolute -left-5 xl:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#1c0f2d]/90 hover:bg-[#2d1847] border border-white/20 text-white flex items-center justify-center shadow-[0_4px_24px_rgba(0,0,0,0.55)] backdrop-blur-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#13D89A] hover:scale-105 active:scale-95 cursor-pointer ${
+                      desktopSpeakerPage === 0
+                        ? 'opacity-0 pointer-events-none invisible'
+                        : 'opacity-100'
+                    }`}
+                  >
+                    <ChevronLeft className="w-6 h-6 text-white" strokeWidth={2.2} />
+                  </button>
+
+                  {/* Sliding Viewport Container */}
+                  <div className="overflow-hidden w-full py-3 px-1 -my-3 -mx-1">
+                    <div
+                      className="flex transition-transform duration-600 ease-out will-change-transform"
+                      style={{
+                        transform: `translateX(-${desktopSpeakerPage * 100}%)`,
+                      }}
+                    >
+                      {/* Group 1: First 4 speakers */}
+                      <div className="w-full shrink-0 grid grid-cols-4 gap-6 items-stretch">
+                        {SPEAKERS.slice(0, 4).map((sp, idx) => renderSpeakerCard(sp, idx, true))}
+                      </div>
+
+                      {/* Group 2: Second 4 speakers */}
+                      <div className="w-full shrink-0 grid grid-cols-4 gap-6 items-stretch">
+                        {SPEAKERS.slice(4, 8).map((sp, idx) => renderSpeakerCard(sp, idx + 4, true))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Navigation Arrow */}
+                  <button
+                    type="button"
+                    onClick={() => setDesktopSpeakerPage(1)}
+                    disabled={desktopSpeakerPage === 1}
+                    aria-label="Next speakers"
+                    className={`absolute -right-5 xl:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#1c0f2d]/90 hover:bg-[#2d1847] border border-white/20 text-white flex items-center justify-center shadow-[0_4px_24px_rgba(0,0,0,0.55)] backdrop-blur-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#13D89A] hover:scale-105 active:scale-95 cursor-pointer ${
+                      desktopSpeakerPage === 1
+                        ? 'opacity-0 pointer-events-none invisible'
+                        : 'opacity-100'
+                    }`}
+                  >
+                    <ChevronRight className="w-6 h-6 text-white" strokeWidth={2.2} />
+                  </button>
+
+                  {/* Desktop Carousel Indicators */}
+                  <div
+                    className="flex justify-center items-center gap-2.5 mt-8"
+                    aria-label="Speaker desktop pagination"
+                  >
+                    {[0, 1].map((page) => (
+                      <button
+                        key={page}
+                        type="button"
+                        onClick={() => setDesktopSpeakerPage(page)}
+                        aria-label={`View speakers ${page * 4 + 1} to ${page * 4 + 4}`}
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                          desktopSpeakerPage === page
+                            ? 'w-8 bg-gradient-to-r from-[#10ce99] via-[#6866a9] to-[#ab1cb6]'
+                            : 'w-2.5 bg-white/30 hover:bg-white/60'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* MOBILE VIEW: Horizontal Swipeable Carousel (no desktop arrows) */}
+                <div className="block lg:hidden">
+                  <div
+                    ref={carouselRef}
+                    onScroll={handleCarouselScroll}
+                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth items-stretch pb-4 px-4 -mx-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x gap-5"
+                  >
+                    {SPEAKERS.map((sp, idx) => renderSpeakerCard(sp, idx, false))}
+                  </div>
+
+                  {/* Mobile Carousel Pagination Indicators (All 8 Speakers) */}
+                  <div
+                    className="flex justify-center items-center gap-2 mt-6"
+                    aria-label="Speaker carousel pagination"
+                  >
+                    {SPEAKERS.map((sp, idx) => (
+                      <button
+                        key={sp.id}
+                        type="button"
+                        onClick={() => scrollToIndex(idx)}
+                        aria-label={`Go to speaker ${idx + 1}: ${sp.name || sp.role || `Speaker ${idx + 1}`}`}
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                          activeSpeakerIndex === idx
+                            ? 'w-7 bg-gradient-to-r from-[#10ce99] via-[#6866a9] to-[#ab1cb6]'
+                            : 'w-2 bg-white/30 hover:bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            );
+          })()}
 
           <div className="mt-10 sm:mt-12 text-center">
             <button
@@ -442,27 +607,57 @@ export default function App() {
           </div>
         </section>
 
-        {/* 2C. NUESTROS PATROCINANTES SECTION */}
-        <section aria-label="Nuestros Patrocinantes" className="max-w-[1180px] mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-24">
-          <h2 className="text-center text-[25px] sm:text-[36px] font-bold uppercase tracking-[0.02em] text-white mb-10 sm:mb-14">
-            NUESTROS PATROCINANTES
-          </h2>
+        {/* 2C. OUR SPONSORS SECTION */}
+        <section aria-label="Our Sponsors" className="w-full pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden">
+          <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
+            <h2 className="text-center text-[25px] sm:text-[36px] font-bold uppercase tracking-[0.02em] text-white mb-10 sm:mb-14">
+              OUR SPONSORS
+            </h2>
+          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between gap-8 sm:gap-10 place-items-center">
-            {SPONSORS.map((sponsor, idx) => (
-              <div
-                key={sponsor.name}
-                className={`flex items-center justify-center opacity-95 hover:opacity-100 transition-opacity ${idx === 4 ? 'col-span-2 sm:col-span-1' : ''
-                  }`}
-              >
-                <img
-                  src={sponsor.src}
-                  alt={sponsor.name}
-                  referrerPolicy="no-referrer"
-                  className={`${sponsor.heightClass} w-auto object-contain`}
-                />
+          {/* Marquee Wrapper with Edge Fade Mask */}
+          <div className="relative w-full overflow-hidden marquee-mask py-3 sm:py-4">
+            <div className="animate-marquee-infinite flex items-center">
+              {/* Primary Sequence */}
+              <div className="flex shrink-0 items-center gap-12 sm:gap-16 md:gap-24 pr-12 sm:pr-16 md:pr-24">
+                {[...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
+                  <div
+                    key={`primary-${sponsor.name}-${idx}`}
+                    className="flex items-center justify-center shrink-0 opacity-90 hover:opacity-100 transition-opacity"
+                    {...(idx >= SPONSORS.length ? { 'aria-hidden': 'true' } : {})}
+                  >
+                    <img
+                      src={sponsor.src}
+                      alt={idx < SPONSORS.length ? sponsor.name : ''}
+                      referrerPolicy="no-referrer"
+                      className={`${sponsor.heightClass} w-auto max-w-none object-contain`}
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+
+              {/* Duplicate Sequence for seamless infinite loop */}
+              <div
+                aria-hidden="true"
+                className="flex shrink-0 items-center gap-12 sm:gap-16 md:gap-24 pr-12 sm:pr-16 md:pr-24"
+              >
+                {[...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
+                  <div
+                    key={`dup-${sponsor.name}-${idx}`}
+                    className="flex items-center justify-center shrink-0 opacity-90 hover:opacity-100 transition-opacity"
+                  >
+                    <img
+                      src={sponsor.src}
+                      alt=""
+                      referrerPolicy="no-referrer"
+                      className={`${sponsor.heightClass} w-auto max-w-none object-contain`}
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -532,46 +727,123 @@ export default function App() {
       </section>
 
       {/* =====================================================================
-          4. TOPICS OF OUR SPEAKERS SECTION
+          4. CONFERENCE TOPICS SECTION
          ===================================================================== */}
-      <section className="w-full bg-[#13091a] py-16 sm:py-24">
+      <section id="topics" className="w-full bg-[#13091a] py-16 sm:py-24 overflow-hidden">
         <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
           <div className="text-center">
             <h2 className="text-[26px] sm:text-[36px] font-bold uppercase tracking-[0.01em] text-white">
-              TOPICS OF OUR SPEAKERS
+              CONFERENCE TOPICS
             </h2>
             <p className="mt-1.5 text-[13.5px] sm:text-[16px] font-medium text-white/95">
-              Temáticas Clave por Nuestros Expertos Oradores
+              Exploring the Intellectual, Spiritual and Contemporary Dimensions of Tasawwuf
             </p>
           </div>
+        </div>
 
-          <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {TOPICS.map((topic) => (
-              <div
-                key={topic.title}
-                className="topic-border-fade p-[2px] rounded-[26px] flex"
-              >
-                <div className="w-full rounded-[24px] bg-[#13091a] px-6 sm:px-9 py-7 sm:py-9 flex flex-col justify-center">
-                  <h3 className="text-[17px] sm:text-[19.5px] font-bold uppercase leading-[1.3] text-white max-w-[400px]">
-                    {topic.title}
-                  </h3>
-                  <p className="mt-3 text-[12.5px] sm:text-[13px] leading-[1.65] text-white/90 font-normal max-w-[440px]">
-                    {topic.description}
-                  </p>
-                </div>
+        {/* Two Vertically Stacked Independent Marquee Rows */}
+        <div className="mt-10 sm:mt-14 w-full">
+          {/* FIRST ROW – FIVE TOPICS (Right to Left) */}
+          <div className="relative w-full overflow-hidden topic-marquee-mask py-2">
+            <div className="animate-marquee-left flex items-stretch">
+              {/* Primary Set */}
+              <div className="flex shrink-0 items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8">
+                {TOPICS_ROW_1.map((topic, idx) => (
+                  <div
+                    key={`row1-set1-${idx}`}
+                    className="w-[85vw] max-w-[360px] sm:w-[500px] md:w-[540px] lg:w-[550px] shrink-0 topic-border-fade p-[2px] rounded-[26px] flex"
+                  >
+                    <div className="w-full h-full rounded-[24px] bg-[#13091a] px-6 sm:px-9 py-7 sm:py-8 flex flex-col justify-center text-left">
+                      <h3 className="text-[16px] sm:text-[18.5px] md:text-[19.5px] font-bold uppercase leading-[1.3] text-white">
+                        {topic.title}
+                      </h3>
+                      <p className="mt-3 text-[12px] sm:text-[12.8px] md:text-[13px] leading-[1.65] text-white/90 font-normal">
+                        {topic.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+
+              {/* Duplicate Set for Seamless Infinite Loop */}
+              <div
+                aria-hidden="true"
+                className="flex shrink-0 items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8"
+              >
+                {TOPICS_ROW_1.map((topic, idx) => (
+                  <div
+                    key={`row1-set2-${idx}`}
+                    className="w-[85vw] max-w-[360px] sm:w-[500px] md:w-[540px] lg:w-[550px] shrink-0 topic-border-fade p-[2px] rounded-[26px] flex"
+                  >
+                    <div className="w-full h-full rounded-[24px] bg-[#13091a] px-6 sm:px-9 py-7 sm:py-8 flex flex-col justify-center text-left">
+                      <h3 className="text-[16px] sm:text-[18.5px] md:text-[19.5px] font-bold uppercase leading-[1.3] text-white">
+                        {topic.title}
+                      </h3>
+                      <p className="mt-3 text-[12px] sm:text-[12.8px] md:text-[13px] leading-[1.65] text-white/90 font-normal">
+                        {topic.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="mt-10 sm:mt-12 text-center">
-            <button
-              type="button"
-              onClick={() => setTicketModalOpen(true)}
-              className="rounded-full btn-marca-gradient px-9 sm:px-11 py-3 sm:py-3.5 text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.04em] text-white shadow-lg transition-transform active:scale-[0.98] whitespace-nowrap cursor-pointer"
-            >
-              BUY TICKETS
-            </button>
+          {/* SECOND ROW – FIVE TOPICS (Left to Right) */}
+          <div className="relative w-full overflow-hidden topic-marquee-mask py-2 mt-6 sm:mt-8">
+            <div className="animate-marquee-right flex items-stretch">
+              {/* Primary Set */}
+              <div className="flex shrink-0 items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8">
+                {TOPICS_ROW_2.map((topic, idx) => (
+                  <div
+                    key={`row2-set1-${idx}`}
+                    className="w-[85vw] max-w-[360px] sm:w-[500px] md:w-[540px] lg:w-[550px] shrink-0 topic-border-fade p-[2px] rounded-[26px] flex"
+                  >
+                    <div className="w-full h-full rounded-[24px] bg-[#13091a] px-6 sm:px-9 py-7 sm:py-8 flex flex-col justify-center text-left">
+                      <h3 className="text-[16px] sm:text-[18.5px] md:text-[19.5px] font-bold uppercase leading-[1.3] text-white">
+                        {topic.title}
+                      </h3>
+                      <p className="mt-3 text-[12px] sm:text-[12.8px] md:text-[13px] leading-[1.65] text-white/90 font-normal">
+                        {topic.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Duplicate Set for Seamless Infinite Loop */}
+              <div
+                aria-hidden="true"
+                className="flex shrink-0 items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8"
+              >
+                {TOPICS_ROW_2.map((topic, idx) => (
+                  <div
+                    key={`row2-set2-${idx}`}
+                    className="w-[85vw] max-w-[360px] sm:w-[500px] md:w-[540px] lg:w-[550px] shrink-0 topic-border-fade p-[2px] rounded-[26px] flex"
+                  >
+                    <div className="w-full h-full rounded-[24px] bg-[#13091a] px-6 sm:px-9 py-7 sm:py-8 flex flex-col justify-center text-left">
+                      <h3 className="text-[16px] sm:text-[18.5px] md:text-[19.5px] font-bold uppercase leading-[1.3] text-white">
+                        {topic.title}
+                      </h3>
+                      <p className="mt-3 text-[12px] sm:text-[12.8px] md:text-[13px] leading-[1.65] text-white/90 font-normal">
+                        {topic.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div className="mt-10 sm:mt-12 text-center">
+          <button
+            type="button"
+            onClick={() => setTicketModalOpen(true)}
+            className="rounded-full btn-marca-gradient px-9 sm:px-11 py-3 sm:py-3.5 text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.04em] text-white shadow-lg transition-transform active:scale-[0.98] whitespace-nowrap cursor-pointer"
+          >
+            BUY TICKETS
+          </button>
         </div>
       </section>
 
@@ -682,10 +954,10 @@ export default function App() {
           {/* Contact Form Block */}
           <div className="relative z-20 max-w-[430px] mx-auto px-4 pt-16 sm:pt-24 text-center">
             <h2 className="text-[28px] sm:text-[36px] font-bold uppercase text-white tracking-[0.02em]">
-              CONTACTOS
+              GET IN TOUCH
             </h2>
             <p className="mt-1 text-[13.5px] sm:text-[15.5px] text-white/95 font-normal">
-              Comparte Tus Dudas Con Nosotros.
+              Feel free to share your questions with us
             </p>
 
             <form onSubmit={handleContactSubmit} className="mt-7 space-y-3 text-left" noValidate>
@@ -693,13 +965,13 @@ export default function App() {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Name*"
+                    placeholder="Full Name*"
                     value={contactName}
                     onChange={(e) => {
                       setContactName(e.target.value);
                       if (contactStatus !== 'idle') setContactStatus('idle');
                     }}
-                    aria-label="Name"
+                    aria-label="Full Name"
                     className="w-full bg-white/[0.13] border border-white/[0.14] pl-3.5 pr-9 py-2.5 text-[12px] text-white placeholder:text-white/85 focus:outline-none focus:border-[#12D89E]"
                   />
                   <User
@@ -711,13 +983,13 @@ export default function App() {
                 <div className="relative">
                   <input
                     type="email"
-                    placeholder="Email*"
+                    placeholder="Email Address*"
                     value={contactEmail}
                     onChange={(e) => {
                       setContactEmail(e.target.value);
                       if (contactStatus !== 'idle') setContactStatus('idle');
                     }}
-                    aria-label="Email"
+                    aria-label="Email Address"
                     className="w-full bg-white/[0.13] border border-white/[0.14] pl-3.5 pr-9 py-2.5 text-[12px] text-white placeholder:text-white/85 focus:outline-none focus:border-[#12D89E]"
                   />
                   <Mail
@@ -729,7 +1001,7 @@ export default function App() {
 
               <div>
                 <textarea
-                  placeholder="Type Here"
+                  placeholder="Write your message here..."
                   value={contactMessage}
                   onChange={(e) => setContactMessage(e.target.value)}
                   aria-label="Message"
@@ -739,12 +1011,12 @@ export default function App() {
 
               {contactStatus === 'error' && (
                 <p className="text-center text-xs text-[#ff9bb3]">
-                  Por favor completa tu nombre y un correo electrónico válido.
+                  Please enter your name and a valid email address.
                 </p>
               )}
               {contactStatus === 'success' && (
                 <p className="text-center text-xs text-[#19e6a8]">
-                  ¡Mensaje enviado! Gracias por compartir tus dudas con nosotros.
+                  Message sent! Thank you for contacting Al-Wijdan.
                 </p>
               )}
 
@@ -753,7 +1025,7 @@ export default function App() {
                   type="submit"
                   className="rounded-full btn-marca-gradient px-8 sm:px-9 py-3 sm:py-3.5 text-[12px] sm:text-[12.5px] font-semibold uppercase tracking-[0.04em] text-white shadow-lg transition-transform active:scale-[0.98] whitespace-nowrap cursor-pointer"
                 >
-                  SUBMIT MESSAGE
+                  SEND MESSAGE
                 </button>
               </div>
             </form>
@@ -780,7 +1052,7 @@ export default function App() {
 
             {/* Footer Brand Lockup at Base of Crystals */}
             <div className="relative z-10 flex justify-center px-4">
-              <a href="#top" aria-label="Volver arriba">
+              <a href="#top" aria-label="Back to top">
                 <MarcaEfectoLogo size="md" />
               </a>
             </div>
@@ -793,24 +1065,23 @@ export default function App() {
             <div className="border-t border-white/80" />
 
             <div className="pt-8 sm:pt-10 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 items-start">
-              {/* Column 1: SOBRE NOSOTROS */}
+              {/* Column 1: ABOUT AL-WIJDAN */}
               <div className="md:col-span-4">
                 <h3 className="text-[12.5px] sm:text-[13px] font-bold uppercase tracking-wide text-white">
-                  SOBRE NOSOTROS
+                  ABOUT AL-WIJDAN
                 </h3>
-                <p className="mt-2.5 text-[11.5px] sm:text-[12px] leading-[1.65] text-white/85 max-w-[235px]">
-                  The Branding Show es la gran apuesta de la The Branding Show es la gran apuesta de
-                  la
+                <p className="mt-2.5 text-[11.5px] sm:text-[12px] leading-[1.65] text-white/85 max-w-[280px]">
+                  Al-Wijdan is a Tasawwuf conference organised by Samastha Kerala Jem-iyyathul Ulama. It brings together scholars, students and delegates to explore the spiritual heritage and contemporary relevance of Tasawwuf.
                 </p>
               </div>
 
-              {/* Column 2: CONTACTOS */}
+              {/* Column 2: CONTACT */}
               <div className="md:col-span-4">
                 <h3 className="text-[12.5px] sm:text-[13px] font-bold uppercase tracking-wide text-white">
-                  CONTACTOS
+                  CONTACT
                 </h3>
                 <p className="mt-2.5 text-[11.5px] sm:text-[12px] leading-[1.6] text-white/85">
-                  Comparte tus dudas con nosotros.
+                  Connect with the Al-Wijdan organising team.
                 </p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-2.5">
@@ -846,17 +1117,15 @@ export default function App() {
                     className="inline-flex items-center gap-1.5 rounded-full btn-marca-gradient px-3.5 py-1.5 text-[11px] sm:text-[11.5px] font-medium text-white whitespace-nowrap shadow-md"
                   >
                     <Phone className="w-3 h-3 fill-white text-white shrink-0" />
-                    <span className="tabular-nums">+58 212-000-00-00</span>
+                    <span className="tabular-nums">+91 9539071681</span>
                   </a>
                 </div>
               </div>
 
-              {/* Column 3: SÍGUENOS LA PISTA */}
+              {/* Column 3: FOLLOW AL-WIJDAN UPDATES */}
               <div className="md:col-span-4 w-full">
                 <h3 className="text-[12.5px] sm:text-[13px] font-bold uppercase leading-[1.45] tracking-wide text-white">
-                  SÍGUENOS LA PISTA DE TODO LO
-                  <br />
-                  QUE ESTAMOS HACIENDO
+                  FOLLOW AL-WIJDAN UPDATES
                 </h3>
 
                 <form
@@ -866,13 +1135,13 @@ export default function App() {
                 >
                   <input
                     type="email"
-                    placeholder="E-mail"
+                    placeholder="Email Address"
                     value={newsletterEmail}
                     onChange={(e) => {
                       setNewsletterEmail(e.target.value);
                       if (newsletterStatus !== 'idle') setNewsletterStatus('idle');
                     }}
-                    aria-label="Correo para suscripción"
+                    aria-label="Email address for subscription"
                     className="flex-1 min-w-0 bg-transparent pl-4 pr-2 py-2.5 text-[11.5px] text-white placeholder:text-white/75 focus:outline-none"
                   />
                   <button
@@ -885,12 +1154,12 @@ export default function App() {
 
                 {newsletterStatus === 'error' && (
                   <p className="mt-1.5 text-[11px] text-[#ff9bb3]">
-                    Ingresa un correo electrónico válido.
+                    Please enter a valid email address.
                   </p>
                 )}
                 {newsletterStatus === 'success' && (
                   <p className="mt-1.5 text-[11px] text-[#19e6a8]">
-                    ¡Gracias por suscribirte a Marca Efecto!
+                    Thank you for subscribing to Al-Wijdan updates!
                   </p>
                 )}
               </div>

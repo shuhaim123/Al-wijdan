@@ -3,85 +3,35 @@ import React, { useId } from 'react';
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  alt?: string;
 }
 
 /**
- * Exact vector reproduction of the MZ + MARCA EFECTO geometric logo lockup
+ * Official Al-Wijdan Conference Logo Lockup
  */
-export const MarcaEfectoLogo: React.FC<LogoProps> = ({ size = 'sm', className = '' }) => {
-  const gradId = useId();
-
-  const dimensions = {
-    sm: 'w-[148px] sm:w-[172px]',
-    md: 'w-[195px] sm:w-[225px]',
-    lg: 'w-[270px] sm:w-[390px] lg:w-[465px]',
+export const MarcaEfectoLogo: React.FC<LogoProps> = ({
+  size = 'sm',
+  className = '',
+  alt = 'Al-Wijdan Logo',
+}) => {
+  const sizeClasses = {
+    sm: 'h-11 sm:h-13 md:h-14 max-h-[56px] w-auto max-w-[80px]',
+    md: 'h-[125px] sm:h-[155px] md:h-[180px] max-h-[190px] w-auto max-w-[140px]',
+    lg: 'h-[240px] sm:h-[320px] md:h-[370px] lg:h-[410px] max-h-[440px] w-auto max-w-[300px]',
   }[size];
 
   return (
-    <svg
-      viewBox="0 0 384 175"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={`select-none ${dimensions} h-auto ${className}`}
-      role="img"
-      aria-label="Marca Efecto"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="107" y1="55" x2="277" y2="55" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#B427CC" />
-          <stop offset="48%" stopColor="#5D6EE0" />
-          <stop offset="100%" stopColor="#1CD89A" />
-        </linearGradient>
-      </defs>
-
-      {/* MZ Monogram Outline */}
-      <g
-        transform="translate(11, 0)"
-        stroke={`url(#${gradId})`}
-        strokeWidth="3.6"
-        strokeLinejoin="miter"
-        strokeMiterlimit="10"
-      >
-        {/* Upper M + Z Top Bar Polygon with signature left notch */}
-        <path d="M 106 10 H 137 L 166 39 L 195 10 H 256 V 36 H 199 L 166 69 L 133 36 V 108 H 106 V 45 L 118 33 H 106 Z" />
-        {/* Lower Z Nested Polygon */}
-        <path d="M 206 58 H 239 L 211 86 H 256 V 108 H 180 V 84 L 206 58 Z" />
-      </g>
-
-      {/* Custom Geometric Wordmark: M Λ R C Λ   ≡ F ≡ C T O */}
-      <g
-        stroke="#FFFFFF"
-        strokeWidth="2.35"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {/* M */}
-        <path d="M 12 162 V 140 L 22 155 L 32 140 V 162" />
-        {/* A (stylized lambda without crossbar) */}
-        <path d="M 50 162 L 59 140 L 68 162" />
-        {/* R */}
-        <path d="M 86 162 V 140 H 95 C 99.5 140 102 142.5 102 146 C 102 149.5 99.5 152 95 152 H 86 M 94.5 152 L 102.5 162" />
-        {/* C */}
-        <path d="M 136 143.5 C 133.8 141.2 130.8 140 127.5 140 C 121 140 116.5 144.8 116.5 151 C 116.5 157.2 121 162 127.5 162 C 130.8 162 133.8 160.8 136 158.5" />
-        {/* A (stylized lambda without crossbar) */}
-        <path d="M 152 162 L 161 140 L 170 162" />
-
-        {/* E (three floating horizontal bars) */}
-        <path d="M 206 140 H 217 M 206 151 H 215.5 M 206 162 H 217" />
-        {/* F */}
-        <path d="M 235 162 V 140 H 247.5 M 235 151 H 245" />
-        {/* E (three floating horizontal bars) */}
-        <path d="M 265 140 H 276 M 265 151 H 274.5 M 265 162 H 276" />
-        {/* C */}
-        <path d="M 311 143.5 C 308.8 141.2 305.8 140 302.5 140 C 296 140 291.5 144.8 291.5 151 C 291.5 157.2 296 162 302.5 162 C 305.8 162 308.8 160.8 311 158.5" />
-        {/* T */}
-        <path d="M 326 140 H 341 M 333.5 140 V 162" />
-        {/* O */}
-        <circle cx="362" cy="151" r="11" />
-      </g>
-    </svg>
+    <img
+      src="/logowijdan.jpg"
+      alt={alt}
+      className={`select-none object-contain ${sizeClasses} ${className}`}
+      loading={size === 'sm' ? 'eager' : 'lazy'}
+      decoding="async"
+    />
   );
 };
+
+export const AlWijdanLogo = MarcaEfectoLogo;
 
 export const EventStarCalendarIcon: React.FC = () => {
   const id = useId();
@@ -89,8 +39,9 @@ export const EventStarCalendarIcon: React.FC = () => {
     <svg viewBox="0 0 36 36" fill="none" className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" aria-hidden="true">
       <defs>
         <linearGradient id={id} x1="4" y1="32" x2="32" y2="4" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#B821C7" />
-          <stop offset="100%" stopColor="#12D69D" />
+          <stop offset="0%" stopColor="#FDE28A" />
+          <stop offset="50%" stopColor="#E8B54A" />
+          <stop offset="100%" stopColor="#C99026" />
         </linearGradient>
       </defs>
       <rect x="4" y="6" width="28" height="26" rx="4" stroke={`url(#${id})`} strokeWidth="1.9" />
@@ -112,8 +63,9 @@ export const EventClockIcon: React.FC = () => {
     <svg viewBox="0 0 36 36" fill="none" className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" aria-hidden="true">
       <defs>
         <linearGradient id={id} x1="4" y1="32" x2="32" y2="4" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#B821C7" />
-          <stop offset="100%" stopColor="#12D69D" />
+          <stop offset="0%" stopColor="#FDE28A" />
+          <stop offset="50%" stopColor="#E8B54A" />
+          <stop offset="100%" stopColor="#C99026" />
         </linearGradient>
       </defs>
       <circle cx="18" cy="18" r="14" stroke={`url(#${id})`} strokeWidth="2" />
@@ -128,8 +80,9 @@ export const EventPinIcon: React.FC = () => {
     <svg viewBox="0 0 36 36" fill="none" className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" aria-hidden="true">
       <defs>
         <linearGradient id={id} x1="6" y1="32" x2="30" y2="4" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#B821C7" />
-          <stop offset="100%" stopColor="#12D69D" />
+          <stop offset="0%" stopColor="#FDE28A" />
+          <stop offset="50%" stopColor="#E8B54A" />
+          <stop offset="100%" stopColor="#C99026" />
         </linearGradient>
       </defs>
       <path
